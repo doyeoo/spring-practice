@@ -20,4 +20,33 @@ public class MemoRepositoryTests {
             memoRepository.save(memo);
         });
     }
+
+    @Test
+    public void testSelect(){
+        Long mno = 100L;
+
+        Optional<Memo> result = memoRepository.findById(mno);
+
+        System.out.println("=================================");
+
+        if (result.isPresent()){
+            Memo memo = result.get();
+            System.out.println(memo);
+        }
+    }
+
+    @Test
+    public void testUpdate(){
+        Memo memo = Memo.builder().mno(100L).memoText("Update").build();
+
+        System.out.println(memoRepository.save(memo));
+    }
+
+    @Test
+    public void testDelete(){
+        Long mno = 100L;
+
+        //deleteById 리턴값 void
+        memoRepository.deleteById(mno);
+    }
 }
