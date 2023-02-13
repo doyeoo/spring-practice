@@ -5,12 +5,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.zerock.ex3.service.PostService;
+import org.zerock.ex3.service.CommentService;
 import org.zerock.ex3.dto.PostDTO;
+import org.zerock.ex3.dto.CommentDTO;
 
 import java.util.List;
 
@@ -20,22 +19,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
-    private final PostService service;
+    private final PostService postService;
+    private final CommentService commentService;
 
     @PostMapping("/")
-    public ResponseEntity<Long> write(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
         log.info(postDTO);
 
-        Long num = service.write(postDTO);
+        PostDTO result = postService.createPost(postDTO);
 
-        return new ResponseEntity<>(num, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/")
     public ResponseEntity<List<PostDTO>> getPost() {
-        List<PostDTO> result = service.getPostList();
+        List<PostDTO> result = postService.getPostList();
         System.out.println(result);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping("/{postId}")
+    public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO, @PathVariable("postId") Long postId) {
+        log.info(postId);
+        CommentDTO result = commentService.createComment(commentDTO, postId);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
