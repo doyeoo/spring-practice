@@ -6,7 +6,7 @@ import org.zerock.ex3.domain.Post;
 import java.util.List;
 
 public interface PostService {
-    Long write(PostDTO dto);
+    PostDTO createPost(PostDTO dto);
     List<PostDTO> getPostList();
 
     //엔티티 객체 DTO로 변환

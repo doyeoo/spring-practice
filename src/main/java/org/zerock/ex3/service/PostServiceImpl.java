@@ -19,21 +19,13 @@ public class PostServiceImpl implements PostService {
     //final로 선언하면 값 변경 불가
 
     @Override
-    public Long write(PostDTO dto) {
-
-        log.info("-----DTO-----");
-        log.info(dto);
-
+    public PostDTO createPost(PostDTO dto) {
         Post entity = dtoToEntity(dto);
-
-        log.info("-----ETT-----");
-        log.info(entity);
-
         repository.save(entity);
 
-        return entity.getId();
+        return entityToDTO(entity);
     }
-
+    @Override
     public List<PostDTO> getPostList() {
         List<Post> result = repository.findAll();
 
